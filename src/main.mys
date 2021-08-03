@@ -1,2 +1,11 @@
-def main():
-    print("Hello, world!")
+from argparse import Parser
+from string import StringReader
+from os import TextFile
+from . import execute
+
+def main(argv: [string]):
+    parser = Parser("brainfuck")
+    parser.add_positional("source")
+    args = parser.parse(argv)
+    source = TextFile(args.value_of("source")).read()
+    execute(source)

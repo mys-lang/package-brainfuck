@@ -1,10 +1,104 @@
-def add(first: i32, second: i32) -> i32:
-    """Returns the sum of given numbers `first` and `second`.
+from string import StringReader
+
+class Tape:
+    tape: [i32]
+    pos: u64
+
+    def __init__(self):
+        self.tape = [0]
+        self.pos = 0
+
+    def get(self) -> i32:
+        return self.tape[self.pos]
+
+    def put(self, value: i32):
+        self.tape[self.pos] = value
+
+    def inc(self, value: i32):
+        self.tape[self.pos] += value
+
+    def move(self, value: i32):
+        self.pos += u64(value)
+
+        while self.pos >= len(self.tape):
+            self.tape.append(0)
+
+@trait
+class Op:
+
+    def execute(self, tape: Tape):
+        pass
+
+class Inc(Op):
+    val: i32
+
+    def execute(self, tape: Tape):
+        tape.inc(self.val)
+
+class Move(Op):
+    val: i32
+
+    def execute(self, tape: Tape):
+        tape.move(self.val)
+
+class Write(Op):
+
+    def execute(self, tape: Tape):
+        print(char(tape.get()), end="", flush=True)
+
+class Read(Op):
+
+    def execute(self, tape: Tape):
+        # ToDo: Should not wait for <ENTER>.
+        value = input("")
+
+        if value == "":
+            value = "\n"
+
+        tape.put(i32(value[0]))
+
+
+class Loop(Op):
+    ops: [Op]
+
+    def execute(self, tape: Tape):
+        while tape.get() > 0:
+            run(self.ops, tape)
+
+def parse(source: StringReader) -> [Op]:
+    ops: [Op] = []
+
+    while True:
+        match source.get():
+            case '+':
+                ops.append(Inc(1))
+            case '-':
+                ops.append(Inc(-1))
+            case '>':
+                ops.append(Move(1))
+            case '<':
+                ops.append(Move(-1))
+            case '.':
+                ops.append(Write())
+            case ',':
+                ops.append(Read())
+            case '[':
+                ops.append(Loop(parse(source)))
+            case ']':
+                break
+            case '':
+                break
+
+    return ops
+
+def run(ops: [Op], tape: Tape):
+    for op in ops:
+        op.execute(tape)
+
+def execute(source: string):
+    """Run given program.
 
     """
 
-    return first + second
-
-@test
-def test_add():
-    assert add(1, 2) == 3
+    ops = parse(StringReader(source))
+    run(ops, Tape())
