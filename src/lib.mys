@@ -4,7 +4,7 @@ from os import STDOUT
 from os import Stdin
 from os import Stdout
 
-class Tape:
+class _Tape:
     tape: [i32]
     pos: u64
 
@@ -28,61 +28,61 @@ class Tape:
             self.tape.append(0)
 
 @trait
-class Op:
+class _Op:
 
-    def execute(self, tape: Tape):
+    def execute(self, tape: _Tape):
         pass
 
-class Inc(Op):
+class _Inc(_Op):
     val: i32
 
-    def execute(self, tape: Tape):
+    def execute(self, tape: _Tape):
         tape.inc(self.val)
 
-class Move(Op):
+class _Move(_Op):
     val: i32
 
-    def execute(self, tape: Tape):
+    def execute(self, tape: _Tape):
         tape.move(self.val)
 
-class Write(Op):
+class _Write(_Op):
 
-    def execute(self, tape: Tape):
+    def execute(self, tape: _Tape):
         STDOUT.put(u8(tape.get()))
         STDOUT.flush()
 
-class Read(Op):
+class _Read(_Op):
 
-    def execute(self, tape: Tape):
+    def execute(self, tape: _Tape):
         tape.put(i32(STDIN.get()))
 
 
-class Loop(Op):
-    ops: [Op]
+class _Loop(_Op):
+    ops: [_Op]
 
-    def execute(self, tape: Tape):
+    def execute(self, tape: _Tape):
         while tape.get() > 0:
-            run(self.ops, tape)
+            _run(self.ops, tape)
 
-def parse(source: StringReader) -> [Op]:
-    ops: [Op] = []
+def _parse(source: StringReader) -> [_Op]:
+    ops: [_Op] = []
 
     while True:
         match source.get():
             case '+':
-                ops.append(Inc(1))
+                ops.append(_Inc(1))
             case '-':
-                ops.append(Inc(-1))
+                ops.append(_Inc(-1))
             case '>':
-                ops.append(Move(1))
+                ops.append(_Move(1))
             case '<':
-                ops.append(Move(-1))
+                ops.append(_Move(-1))
             case '.':
-                ops.append(Write())
+                ops.append(_Write())
             case ',':
-                ops.append(Read())
+                ops.append(_Read())
             case '[':
-                ops.append(Loop(parse(source)))
+                ops.append(_Loop(_parse(source)))
             case ']':
                 break
             case '':
@@ -90,14 +90,14 @@ def parse(source: StringReader) -> [Op]:
 
     return ops
 
-def run(ops: [Op], tape: Tape):
+def _run(ops: [_Op], tape: _Tape):
     for op in ops:
         op.execute(tape)
 
-def execute(source: string):
+def execute(program: string):
     """Execute given program.
 
     """
 
-    ops = parse(StringReader(source))
-    run(ops, Tape())
+    ops = _parse(StringReader(program))
+    _run(ops, _Tape())
