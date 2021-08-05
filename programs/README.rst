@@ -17,13 +17,6 @@ Hellow World example.
 
 Copied from https://en.wikipedia.org/wiki/Brainfuck.
 
-life.bf
--------
-
-Game of life.
-
-Copied from https://www.linusakesson.net/programming/brainfuck/index.php.
-
 os.bf
 -----
 
