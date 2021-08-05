@@ -1,5 +1,4 @@
 from argparse import Parser
-from string import StringReader
 from os import TextFile
 from . import execute
 from os.tty import set_to_cbreak_mode

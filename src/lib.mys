@@ -95,7 +95,7 @@ def run(ops: [Op], tape: Tape):
         op.execute(tape)
 
 def execute(source: string):
-    """Run given program.
+    """Execute given program.
 
     """
 
