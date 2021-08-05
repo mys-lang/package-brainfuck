@@ -24,7 +24,7 @@ jobs:
         mys run -- programs/hello_world.bf
 
   release:
-    needs: [linux, macos]
+    needs: linux
     runs-on: ubuntu-20.04
     if: startsWith(github.ref, 'refs/tags')
 
