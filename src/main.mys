@@ -4,9 +4,9 @@ from . import execute
 from os.tty import set_to_cbreak_mode
 
 def main(argv: [string]):
-    parser = Parser("brainfuck")
-    parser.add_positional("source")
+    parser = Parser("brainfuck", version=__version__)
+    parser.add_positional("program", help="Program path.")
     args = parser.parse(argv)
-    source = TextFile(args.value_of("source")).read()
+    source = TextFile(args.value_of("program")).read()
     set_to_cbreak_mode(0)
     execute(source)
