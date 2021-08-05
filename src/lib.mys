@@ -49,7 +49,7 @@ class Write(Op):
 
     def execute(self, tape: Tape):
         STDOUT.put(u8(tape.get()))
-        print("", end="", flush=True)
+        STDOUT.flush()
 
 class Read(Op):
 
