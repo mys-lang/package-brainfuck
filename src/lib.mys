@@ -1,4 +1,8 @@
 from string import StringReader
+from os import STDIN
+from os import STDOUT
+from os import Stdin
+from os import Stdout
 
 class Tape:
     tape: [i32]
@@ -44,18 +48,13 @@ class Move(Op):
 class Write(Op):
 
     def execute(self, tape: Tape):
-        print(char(tape.get()), end="", flush=True)
+        STDOUT.put(u8(tape.get()))
+        print("", end="", flush=True)
 
 class Read(Op):
 
     def execute(self, tape: Tape):
-        # ToDo: Should not wait for <ENTER>.
-        value = input("")
-
-        if value == "":
-            value = "\n"
-
-        tape.put(i32(value[0]))
+        tape.put(i32(STDIN.get()))
 
 
 class Loop(Op):
