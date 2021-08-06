@@ -117,7 +117,7 @@ Copied from https://copy.sh/brainfuck.
 yapi.bf
 -------
 
-Prints the number pi.
+Prints an approximation of the number pi.
 
 Copied from https://copy.sh/brainfuck.
 
