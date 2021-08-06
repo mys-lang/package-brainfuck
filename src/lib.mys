@@ -5,27 +5,33 @@ from os import Stdin
 from os import Stdout
 
 class _Tape:
-    tape: [i32]
+    tape: [u8]
     pos: u64
 
     def __init__(self):
         self.tape = [0]
         self.pos = 0
 
-    def get(self) -> i32:
+    def get(self) -> u8:
         return self.tape[self.pos]
 
-    def put(self, value: i32):
+    def put(self, value: u8):
         self.tape[self.pos] = value
 
-    def inc(self, value: i32):
-        self.tape[self.pos] += value
+    def inc(self):
+        self.tape[self.pos] += 1
 
-    def move(self, value: i32):
-        self.pos += u64(value)
+    def dec(self):
+        self.tape[self.pos] -= 1
 
-        while self.pos >= len(self.tape):
+    def move_right(self):
+        self.pos += 1
+
+        if self.pos >= len(self.tape):
             self.tape.append(0)
+
+    def move_left(self):
+        self.pos -= 1
 
 @trait
 class _Op:
@@ -34,16 +40,24 @@ class _Op:
         pass
 
 class _Inc(_Op):
-    val: i32
 
     def execute(self, tape: _Tape):
-        tape.inc(self.val)
+        tape.inc()
 
-class _Move(_Op):
-    val: i32
+class _Dec(_Op):
 
     def execute(self, tape: _Tape):
-        tape.move(self.val)
+        tape.dec()
+
+class _MoveRight(_Op):
+
+    def execute(self, tape: _Tape):
+        tape.move_right()
+
+class _MoveLeft(_Op):
+
+    def execute(self, tape: _Tape):
+        tape.move_left()
 
 class _Write(_Op):
 
@@ -54,7 +68,7 @@ class _Write(_Op):
 class _Read(_Op):
 
     def execute(self, tape: _Tape):
-        tape.put(i32(STDIN.get()))
+        tape.put(STDIN.get())
 
 
 class _Loop(_Op):
@@ -70,13 +84,13 @@ def _parse(source: StringReader) -> [_Op]:
     while True:
         match source.get():
             case '+':
-                ops.append(_Inc(1))
+                ops.append(_Inc())
             case '-':
-                ops.append(_Inc(-1))
+                ops.append(_Dec())
             case '>':
-                ops.append(_Move(1))
+                ops.append(_MoveRight())
             case '<':
-                ops.append(_Move(-1))
+                ops.append(_MoveLeft())
             case '.':
                 ops.append(_Write())
             case ',':
@@ -101,3 +115,34 @@ def execute(program: string):
 
     ops = _parse(StringReader(program))
     _run(ops, _Tape())
+
+@test
+def test_inc():
+    inc = _Inc()
+    tape = _Tape()
+
+    tape.put(3)
+    inc.execute(tape)
+    assert tape.get() == 4
+
+    tape.put(254)
+    inc.execute(tape)
+    assert tape.get() == 255
+
+    inc.execute(tape)
+    assert tape.get() == 0
+
+@test
+def test_dec():
+    dec = _Dec()
+    tape = _Tape()
+
+    tape.put(2)
+    dec.execute(tape)
+    assert tape.get() == 1
+
+    dec.execute(tape)
+    assert tape.get() == 0
+
+    dec.execute(tape)
+    assert tape.get() == 255
