@@ -21,7 +21,9 @@ jobs:
         pip install mys
     - name: Test
       run: |
+        mys test
         mys build
+        ./build/speed/app --version
 
   release:
     needs: linux
