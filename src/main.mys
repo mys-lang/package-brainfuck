@@ -1,6 +1,7 @@
 from argparse import Parser
 from os import TextFile
 from . import execute
+from os.tty import is_tty
 from os.tty import set_to_cbreak_mode
 
 def main(argv: [string]):
@@ -10,5 +11,8 @@ def main(argv: [string]):
     parser.add_positional("program", help="Program path.")
     args = parser.parse(argv)
     source = TextFile(args.value_of("program")).read()
-    set_to_cbreak_mode(0)
+
+    if is_tty(0):
+        set_to_cbreak_mode(0)
+
     execute(source)

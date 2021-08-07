@@ -68,7 +68,7 @@ class _Output(_Op):
 class _Input(_Op):
 
     def execute(self, tape: _Tape):
-        tape.put(STDIN.get())
+        tape.put(u8(STDIN.get()))
 
 
 class _Loop(_Op):
