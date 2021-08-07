@@ -18,10 +18,10 @@ class _Tape:
     def put(self, value: u8):
         self.tape[self.pos] = value
 
-    def inc(self):
+    def increment(self):
         self.tape[self.pos] += 1
 
-    def dec(self):
+    def decrement(self):
         self.tape[self.pos] -= 1
 
     def move_right(self):
@@ -39,15 +39,15 @@ class _Op:
     def execute(self, tape: _Tape):
         pass
 
-class _Inc(_Op):
+class _Increment(_Op):
 
     def execute(self, tape: _Tape):
-        tape.inc()
+        tape.increment()
 
-class _Dec(_Op):
+class _Decrement(_Op):
 
     def execute(self, tape: _Tape):
-        tape.dec()
+        tape.decrement()
 
 class _MoveRight(_Op):
 
@@ -59,13 +59,13 @@ class _MoveLeft(_Op):
     def execute(self, tape: _Tape):
         tape.move_left()
 
-class _Write(_Op):
+class _Output(_Op):
 
     def execute(self, tape: _Tape):
         STDOUT.put(u8(tape.get()))
         STDOUT.flush()
 
-class _Read(_Op):
+class _Input(_Op):
 
     def execute(self, tape: _Tape):
         tape.put(STDIN.get())
@@ -84,17 +84,17 @@ def _parse(source: StringReader) -> [_Op]:
     while True:
         match source.get():
             case '+':
-                ops.append(_Inc())
+                ops.append(_Increment())
             case '-':
-                ops.append(_Dec())
+                ops.append(_Decrement())
             case '>':
                 ops.append(_MoveRight())
             case '<':
                 ops.append(_MoveLeft())
             case '.':
-                ops.append(_Write())
+                ops.append(_Output())
             case ',':
-                ops.append(_Read())
+                ops.append(_Input())
             case '[':
                 ops.append(_Loop(_parse(source)))
             case ']':
@@ -117,8 +117,8 @@ def execute(program: string):
     _run(ops, _Tape())
 
 @test
-def test_inc():
-    inc = _Inc()
+def test_increment():
+    inc = _Increment()
     tape = _Tape()
 
     tape.put(3)
@@ -133,8 +133,8 @@ def test_inc():
     assert tape.get() == 0
 
 @test
-def test_dec():
-    dec = _Dec()
+def test_decrement():
+    dec = _Decrement()
     tape = _Tape()
 
     tape.put(2)
