@@ -1,8 +1,8 @@
 from argparse import Parser
 from os import TextFile
-from . import execute
 from os.tty import is_tty
 from os.tty import set_to_cbreak_mode
+from . import execute
 
 def main(argv: [string]):
     parser = Parser("brainfuck",

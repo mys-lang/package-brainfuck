@@ -1,8 +1,8 @@
-from string import StringReader
 from os import STDIN
 from os import STDOUT
 from os import Stdin
 from os import Stdout
+from string import StringReader
 
 class _Tape:
     tape: [u8]
@@ -69,7 +69,6 @@ class _Input(_Op):
 
     def execute(self, tape: _Tape):
         tape.put(u8(STDIN.get()))
-
 
 class _Loop(_Op):
     ops: [_Op]
