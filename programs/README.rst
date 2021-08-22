@@ -60,15 +60,15 @@ Copied from https://www.linusakesson.net/programming/brainfuck/index.php.
    STARTING
    BRAINOS VER 1
    A FOR HELP
-   OS>
+   OS>A
    A > HELP
    B > CHARCODE
    Z > HALT
-   OS>
+   OS>1
    ENTER CHAR
    >
    31
-   OS>
+   OS>Z
    HALTING
 
 triangle.bf

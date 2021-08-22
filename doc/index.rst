@@ -9,7 +9,8 @@ A `Brainfuck`_ interpreter in the `Mys programming language`_.
 
 Project: https://github.com/mys-lang/package-brainfuck
 
-There are Brainfuck programs in the `programs folder`_.
+Installation
+============
 
 .. code-block:: myscon
 
@@ -17,10 +18,43 @@ There are Brainfuck programs in the `programs folder`_.
    ...
     ✔ Building (1.36 seconds)
     ✔ Installing brainfuck in /Users/erik/.local/bin (0 seconds)
+
+Running Brainfuck programs
+==========================
+
+There are Brainfuck programs in the `programs folder`_.
+
+Hello World
+-----------
+
+.. code-block:: myscon
+
    ❯ wget https://raw.githubusercontent.com/mys-lang/package-brainfuck/main/programs/hello_world.bf
    ...
    ❯ brainfuck hello_world.bf
    Hello World!
+
+A tiny OS
+---------
+
+.. code-block:: myscon
+
+   ❯ wget https://raw.githubusercontent.com/mys-lang/package-brainfuck/main/programs/os.bf
+   ...
+   ❯ brainfuck os.bf
+   STARTING
+   BRAINOS VER 1
+   A FOR HELP
+   OS>A
+   A > HELP
+   B > CHARCODE
+   Z > HALT
+   OS>B
+   ENTER CHAR
+   >1
+   31
+   OS>Z
+   HALTING
 
 API
 ===
