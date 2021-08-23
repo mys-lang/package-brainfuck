@@ -15,9 +15,6 @@ Installation
 .. code-block:: myscon
 
    ❯ mys install brainfuck
-   ...
-    ✔ Building (1.36 seconds)
-    ✔ Installing brainfuck in /Users/erik/.local/bin (0 seconds)
 
 Running Brainfuck programs
 ==========================
@@ -30,7 +27,6 @@ Hello World
 .. code-block:: myscon
 
    ❯ wget https://raw.githubusercontent.com/mys-lang/package-brainfuck/main/programs/hello_world.bf
-   ...
    ❯ brainfuck hello_world.bf
    Hello World!
 
@@ -40,7 +36,6 @@ A tiny OS
 .. code-block:: myscon
 
    ❯ wget https://raw.githubusercontent.com/mys-lang/package-brainfuck/main/programs/os.bf
-   ...
    ❯ brainfuck os.bf
    STARTING
    BRAINOS VER 1
