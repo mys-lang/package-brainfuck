@@ -1,4 +1,5 @@
 from argparse import Parser
+from os import OsError
 from os import TextFile
 from os.tty import is_tty
 from os.tty import set_to_cbreak_mode
@@ -9,9 +10,13 @@ def main(argv: [string]):
                     help="A Brainfuck interpreter.")
     parser.add_positional("program", help="Program path.")
     args = parser.parse(argv)
-    source = TextFile(args.value_of("program")).read()
 
-    if is_tty(0):
-        set_to_cbreak_mode(0)
+    try:
+        source = TextFile(args.value_of("program")).read()
 
-    execute(source)
+        if is_tty(0):
+            set_to_cbreak_mode(0)
+
+        execute(source)
+    except OsError as error:
+        raise SystemExitError(f"error: {error.message}")
