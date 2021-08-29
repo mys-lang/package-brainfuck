@@ -1,3 +1,6 @@
+from ansicolors import BOLD
+from ansicolors import RED
+from ansicolors import RESET
 from argparse import Parser
 from os import OsError
 from os import TextFile
@@ -19,4 +22,4 @@ def main(argv: [string]):
 
         execute(source)
     except OsError as error:
-        raise SystemExitError(f"error: {error.message}")
+        raise SystemExitError(f"{RED}{BOLD}error{RESET}: {error.message}")
