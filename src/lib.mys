@@ -78,7 +78,7 @@ class _Loop(_Op):
             _run(self.ops, tape)
 
 def _parse(source: StringReader) -> [_Op]:
-    ops: [_Op] = []
+    ops = []
 
     while True:
         match source.get():
