@@ -4,7 +4,7 @@ from ansicolors import RESET
 from argparse import Parser
 from argparse import ValueType
 from os import OsError
-from os import TextFile
+from os.path import Path
 from os.tty import is_tty
 from os.tty import set_to_cbreak_mode
 from . import execute
@@ -18,7 +18,7 @@ def main(argv: [string]):
     args = parser.parse(argv)
 
     try:
-        source = TextFile(args.value_of("program")).read()
+        source = Path(args.value_of("program")).read_text()
 
         if is_tty(0):
             set_to_cbreak_mode(0)
