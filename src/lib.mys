@@ -8,76 +8,76 @@ class _Tape:
     tape: [u8]
     pos: u64
 
-    def __init__(self):
+    func __init__(self):
         self.tape = [0]
         self.pos = 0
 
-    def get(self) -> u8:
+    func get(self) -> u8:
         return self.tape[self.pos]
 
-    def put(self, value: u8):
+    func put(self, value: u8):
         self.tape[self.pos] = value
 
-    def increment(self):
+    func increment(self):
         self.tape[self.pos] += 1
 
-    def decrement(self):
+    func decrement(self):
         self.tape[self.pos] -= 1
 
-    def move_right(self):
+    func move_right(self):
         self.pos += 1
 
         if self.pos >= len(self.tape):
             self.tape.append(0)
 
-    def move_left(self):
+    func move_left(self):
         self.pos -= 1
 
 @trait
 class _Op:
 
-    def execute(self, tape: _Tape):
+    func execute(self, tape: _Tape):
         pass
 
 class _Increment(_Op):
 
-    def execute(self, tape: _Tape):
+    func execute(self, tape: _Tape):
         tape.increment()
 
 class _Decrement(_Op):
 
-    def execute(self, tape: _Tape):
+    func execute(self, tape: _Tape):
         tape.decrement()
 
 class _MoveRight(_Op):
 
-    def execute(self, tape: _Tape):
+    func execute(self, tape: _Tape):
         tape.move_right()
 
 class _MoveLeft(_Op):
 
-    def execute(self, tape: _Tape):
+    func execute(self, tape: _Tape):
         tape.move_left()
 
 class _Output(_Op):
 
-    def execute(self, tape: _Tape):
+    func execute(self, tape: _Tape):
         STDOUT.put(u8(tape.get()))
         STDOUT.flush()
 
 class _Input(_Op):
 
-    def execute(self, tape: _Tape):
+    func execute(self, tape: _Tape):
         tape.put(u8(STDIN.get()))
 
 class _Loop(_Op):
     ops: [_Op]
 
-    def execute(self, tape: _Tape):
+    func execute(self, tape: _Tape):
         while tape.get() > 0:
             _run(self.ops, tape)
 
-def _parse(source: StringReader) -> [_Op]:
+func _parse(source: StringReader) -> [_Op]:
     ops = []
 
     while True:
@@ -103,11 +103,11 @@ def _parse(source: StringReader) -> [_Op]:
 
     return ops
 
-def _run(ops: [_Op], tape: _Tape):
+func _run(ops: [_Op], tape: _Tape):
     for op in ops:
         op.execute(tape)
 
-def execute(program: string):
+func execute(program: string):
     """Execute given program.
 
     """
@@ -116,7 +116,7 @@ def execute(program: string):
     _run(ops, _Tape())
 
 @test
-def test_increment():
+func test_increment():
     inc = _Increment()
     tape = _Tape()
 
@@ -132,7 +132,7 @@ def test_increment():
     assert tape.get() == 0
 
 @test
-def test_decrement():
+func test_decrement():
     dec = _Decrement()
     tape = _Tape()
 
