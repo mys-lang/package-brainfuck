@@ -33,8 +33,7 @@ class _Tape:
     func move_left(self):
         self.pos -= 1
 
-@trait
-class _Op:
+trait _Op:
 
     func execute(self, tape: _Tape):
         pass
