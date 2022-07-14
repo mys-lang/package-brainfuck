@@ -114,8 +114,7 @@ func execute(program: string):
     ops = _parse(StringReader(program))
     _run(ops, _Tape())
 
-@test
-func test_increment():
+test increment():
     inc = _Increment()
     tape = _Tape()
 
@@ -130,8 +129,7 @@ func test_increment():
     inc.execute(tape)
     assert tape.get() == 0
 
-@test
-func test_decrement():
+test decrement():
     dec = _Decrement()
     tape = _Tape()
 
