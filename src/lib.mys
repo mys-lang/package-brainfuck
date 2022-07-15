@@ -6,7 +6,7 @@ from string import StringReader
 
 class _Tape:
     tape: [u8]
-    pos: u64
+    pos: i64
 
     func __init__(self):
         self.tape = [0]
@@ -27,7 +27,7 @@ class _Tape:
     func move_right(self):
         self.pos += 1
 
-        if self.pos >= len(self.tape):
+        if self.pos >= self.tape.length():
             self.tape.append(0)
 
     func move_left(self):
