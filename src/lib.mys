@@ -77,28 +77,30 @@ class _Loop(_Op):
             _run(self.ops, tape)
 
 func _parse(source: StringReader) -> [_Op]:
-    ops = []
+    ops: [_Op] = []
 
     while True:
         match source.get():
             case '+':
-                ops.append(_Increment())
+                op = _Increment()
             case '-':
-                ops.append(_Decrement())
+                op = _Decrement()
             case '>':
-                ops.append(_MoveRight())
+                op = _MoveRight()
             case '<':
-                ops.append(_MoveLeft())
+                op = _MoveLeft()
             case '.':
-                ops.append(_Output())
+                op = _Output()
             case ',':
-                ops.append(_Input())
+                op = _Input()
             case '[':
-                ops.append(_Loop(_parse(source)))
+                op = _Loop(_parse(source))
             case ']':
                 break
             case '':
                 break
+
+        ops.append(op)
 
     return ops
 
